@@ -1,6 +1,8 @@
 Play Framework MongoDB module
 ===========================
 
+![Travis Build Status](https://travis-ci.org/evojam/play-mongodb-driver.svg)
+
 The major goal was to provide the convenient to use library for the MongoDB for those who work with **Play Framework 2.4.x** and it's [`ScalaJson library`](https://www.playframework.com/documentation/2.4.x/ScalaJson). This MongoDB client has beed developed on the top of the [mongodb-driver-scala](https://github.com/evojam/mongodb-driver-scala).
 
 We provide `Codec` for all classes extending the `JsValue`. For sake of convenience we expose the collection's implementation that allows you to fetch query results as the [extended JSON](http://docs.mongodb.org/manual/reference/mongodb-extended-json/) or custom objects that have defined the `Reader` and pass query filters and parameters as either a `JsValue` objects or objects that have an `Writer` available.
