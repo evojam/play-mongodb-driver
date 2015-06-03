@@ -23,9 +23,6 @@ licenses +=("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html")
 
 resolvers ++= Seq(
   Resolver.file("LocalIvy", file(Path.userHome + "/.ivy2/local"))(Resolver.ivyStylePatterns),
-  Resolver.url(
-    "Artifactory Realm",
-    new URL("http://artifacts-repository-1.hetzner:8081/artifactory/libs-snapshot-local"))(Resolver.ivyStylePatterns),
   Resolver.mavenLocal,
   Resolver.sbtPluginRepo("snapshots"),
   Resolver.sonatypeRepo("snapshots"),
