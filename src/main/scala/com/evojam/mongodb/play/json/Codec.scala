@@ -10,4 +10,7 @@ object Codec {
       MongoClientSettings.Default.codecRegistry,
       CodecRegistries.fromProviders(new JsValueCodecProvider, new JsObjectCodecProvider, new JsArrayCodecProvider),
       CodecRegistries.fromCodecs(new JsBooleanCodec, new JsNumberCodec, new JsStringCodec))
+
+  implicit lazy val jsValueCodec = new JsValueCodec(registry)
+  implicit lazy val jsObjectCodec = new JsObjectCodec(registry)
 }

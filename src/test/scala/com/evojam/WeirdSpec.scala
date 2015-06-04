@@ -1,11 +1,15 @@
 package com.evojam
 
-import com.evojam.mongodb.client.{ MongoClientSettings, MongoClients }
-import com.evojam.mongodb.play.json.Codec
-import org.bson.BsonDocument
+import play.api.libs.json.JsObject
+import play.api.libs.json.JsValue
+import play.api.libs.json.Json
+
 import org.specs2.mutable.Specification
 
-import play.api.libs.json.{ JsObject, JsValue }
+import com.evojam.mongodb.client.MongoClientSettings
+import com.evojam.mongodb.client.MongoClients
+import com.evojam.mongodb.play.json.Codec
+import com.evojam.mongodb.play.json.Codec.jsObjectCodec
 
 class WeirdSpec extends Specification {
 
@@ -13,9 +17,10 @@ class WeirdSpec extends Specification {
     "return list of JsObject for JsValue" in {
       val client = MongoClients.create(MongoClientSettings().codecRegistry(Codec.registry))
 
-      val res = client.getDatabase("local").getCollection[JsValue]("startup_log")
-        .findOfType[JsValue](new BsonDocument())
-        .collect()
+      val res = client.getDatabase("local")
+        .collection("startup_log")
+        .find()
+        .collect[JsObject]
 
       res must not be empty.await(10)
       res must beAnInstanceOf[List[JsValue]].await(10)
@@ -24,9 +29,10 @@ class WeirdSpec extends Specification {
     "return list of JsObject for JsObject" in {
       val client = MongoClients.create(MongoClientSettings().codecRegistry(Codec.registry))
 
-      val res = client.getDatabase("local").getCollection[JsObject]("startup_log")
-        .findOfType[JsObject](new BsonDocument())
-        .collect()
+      val res = client.getDatabase("local")
+        .collection("startup_log")
+        .find()
+        .collect[JsObject]
 
       res must not be empty.await(10)
       res must beAnInstanceOf[List[JsValue]].await(10)
