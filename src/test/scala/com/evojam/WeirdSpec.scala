@@ -9,7 +9,7 @@ import org.specs2.mutable.Specification
 import com.evojam.mongodb.client.MongoClientSettings
 import com.evojam.mongodb.client.MongoClients
 import com.evojam.mongodb.play.json.Codec
-import com.evojam.mongodb.play.json.Codec.jsObjectCodec
+import com.evojam.mongodb.play.json.Codec._
 
 class WeirdSpec extends Specification {
 

@@ -35,5 +35,5 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-core" % "2.4.11" % "test",
   "org.specs2" %% "specs2-junit" % "2.4.11" % "test",
   "com.typesafe.play" % "play_2.11" % "2.4.0-RC5",
-  "com.evojam" % "mongo-driver-scala_2.11" % "0.2.1-SNAPSHOT"
+  "com.evojam" % "mongo-driver-scala_2.11" % "0.3.1-SNAPSHOT"
 )
