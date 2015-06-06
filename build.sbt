@@ -22,8 +22,6 @@ scalacOptions ++= Seq(
 licenses +=("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
 resolvers ++= Seq(
-  Resolver.file("LocalIvy", file(Path.userHome + "/.ivy2/local"))(Resolver.ivyStylePatterns),
-  Resolver.mavenLocal,
   Resolver.sbtPluginRepo("snapshots"),
   Resolver.sonatypeRepo("snapshots"),
   Resolver.typesafeRepo("snapshots"),
@@ -34,6 +32,6 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-core" % "2.4.11" % "test",
   "org.specs2" %% "specs2-junit" % "2.4.11" % "test",
-  "com.typesafe.play" % "play_2.11" % "2.4.0-RC5",
-  "com.evojam" % "mongo-driver-scala_2.11" % "0.3.1-SNAPSHOT"
+  "com.typesafe.play" % "play_2.11" % "2.4.0",
+  "com.evojam" % "mongo-driver-scala_2.11" % "0.3.2-SNAPSHOT"
 )
