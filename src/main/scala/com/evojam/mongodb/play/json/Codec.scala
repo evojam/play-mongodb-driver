@@ -22,7 +22,7 @@ object Codec {
   implicit def jsValueReader[T: Reads]: Reader[T] = new Reader[T] {
     override type R = JsValue
     override val codec = jsValueCodec
-    override def read(doc: JsValue): T = Json.fromJson(doc).asOpt.get
+    override def read(doc: JsValue): T = Json.fromJson(doc).get
   }
 
   implicit def jsValueWriter[T: Writes]: Writer[T] = new Writer[T] {
