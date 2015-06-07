@@ -7,6 +7,10 @@ The major goal was to provide the convenient to use library for the MongoDB for 
 
 We provide `Codec` for all classes extending the `JsValue`. For sake of convenience we expose the collection's implementation that allows you to fetch query results as the [extended JSON](http://docs.mongodb.org/manual/reference/mongodb-extended-json/) or custom objects that have defined the `Reader` and pass query filters and parameters as either a `JsValue` objects or objects that have an `Writer` available.
 
+## Requirements
+
+- JDK8
+
 ## How to enable the module
 
 Currently, we are publishing to the Sonatype snapshots thus this is the repository that has to be enabled. In your `build.sbt` add if not yet enabled:
@@ -15,7 +19,7 @@ Currently, we are publishing to the Sonatype snapshots thus this is the reposito
 
 Add library dependency:
 
-    libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.1.0-SNAPSHOT"
+    libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.1.1-SNAPSHOT"
 
 Enable module in the application configuration and provide [mongo connection string](http://docs.mongodb.org/manual/reference/connection-string/):
 
@@ -37,7 +41,7 @@ Voila, now you can use it anywhere... :) We strongly discourage mixing dao in th
     class DemoController @Inject()(mongo: MongoClient) extends Controller {
 
       def get() = Action.async(parse.empty) { _ =>
-        mongo.listDatabaseNames().map(Json.toJson(_)).map(Ok(_))
+        mongo.databaseNames().map(Json.toJson(_)).map(Ok(_))
       }
     }
 
