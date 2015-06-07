@@ -47,8 +47,33 @@ Voila, now you can use it anywhere... :) We strongly discourage mixing dao in th
 
 ## How to query for real
 
-    val collection: JsonCollection = ???
+```
+import scala.concurrent.Future
+import play.api.libs.json.Json
+import com.evojam.mongodb.client.MongoClients
 
-    collection.find().collect() ???
+case class SampleRecord(_id: String)
 
-    TODO: Fill this sample when the code is ready
+object SampleRecord {
+  implicit val format = Json.format[SampleRecord]
+}
+
+val collection = MongoClients.create(
+    MongoClientSettings().codecRegistry(Codec.registry))
+    .getDatabase("foo")
+    .collection("bar")
+
+// insert records to collection
+val collectionContent = List(
+  SampleRecord("first"),
+  SampleRecord("second"),
+  SampleRecord("third"))
+
+val res: Future[Unit] = collection.insertAll(collectionContent)
+
+// query the collection for SampleRecords
+val records: Future[List[SampleRecord]] = collection
+  .find()
+  .collect[SampleRecord]
+
+```
