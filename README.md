@@ -15,39 +15,47 @@ We provide `Codec` for all classes extending the `JsValue`. For sake of convenie
 
 Currently, we are publishing to the Sonatype snapshots thus this is the repository that has to be enabled. In your `build.sbt` add if not yet enabled:
 
-    resolvers += Resolver.sonatypeRepo("snapshots")
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+```
 
 Add library dependency:
 
-    libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.1.1-SNAPSHOT"
+```scala
+libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.1.1-SNAPSHOT"
+```
 
 Enable module in the application configuration and provide [mongo connection string](http://docs.mongodb.org/manual/reference/connection-string/):
 
-    play.modules.enabled += "com.evojam.MongoModule"
-    mongo.db.default.uri = "mongodb://localhost/test"
+```scala
+play.modules.enabled += "com.evojam.MongoModule"
+mongo.db.default.uri = "mongodb://localhost/test"
+```
 
 Voila, now you can use it anywhere... :) We strongly discourage mixing dao in the controller but for an example the controller with the endpoint returning list of databases is good enough:
 
-    package com.evojam.demo.controller
+```scala
+package com.evojam.demo.controller
 
-    import play.api.libs.json.Json
-    import play.api.mvc.{ Action, Controller }
+import play.api.libs.json.Json
+import play.api.mvc.{ Action, Controller }
 
-    import com.evojam.mongodb.client.MongoClient
-    import com.google.inject.Inject
+import com.evojam.mongodb.client.MongoClient
+import com.google.inject.Inject
 
-    import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
 
-    class DemoController @Inject()(mongo: MongoClient) extends Controller {
+class DemoController @Inject()(mongo: MongoClient) extends Controller {
 
-      def get() = Action.async(parse.empty) { _ =>
-        mongo.databaseNames().map(Json.toJson(_)).map(Ok(_))
-      }
-    }
+  def get() = Action.async(parse.empty) { _ =>
+    mongo.databaseNames().map(Json.toJson(_)).map(Ok(_))
+  }
+}
+```
 
 ## How to query for real
 
-```
+```scala
 import scala.concurrent.Future
 import play.api.libs.json.Json
 import com.evojam.mongodb.client.MongoClients
