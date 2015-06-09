@@ -14,7 +14,7 @@ import com.evojam.mongodb.play.json.Codec._
 class QueryJsonSpec extends Specification with After {
   val collection = MongoClients.create(
     MongoClientSettings().codecRegistry(Codec.registry))
-    .getDatabase("foodb")
+    .database("foodb")
     .collection("queryjsonspec")
 
   val collectionContent = List(

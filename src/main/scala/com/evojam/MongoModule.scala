@@ -3,7 +3,7 @@ package com.evojam
 import play.api._
 import play.api.inject.{ Binding, Module }
 
-import com.evojam.mongodb.client.{ MongoClient, MongoClients }
+import com.evojam.mongodb.client.{ MongoDatabase, MongoCollection, MongoClient, MongoClients }
 import com.google.inject.Inject
 
 class MongoModule @Inject()(environment: Environment, config: Configuration) extends Module {
@@ -16,10 +16,15 @@ class MongoModule @Inject()(environment: Environment, config: Configuration) ext
   }
 
   def bindDefault(name: ConnectionName, client: MongoClient): Seq[Binding[_]] =
-    Seq(bind[MongoClient].toInstance(client), bind[MongoClient].qualifiedWith(name.wrapped).toInstance(client))
+    Seq(
+      bind[MongoClient].toInstance(client),
+      bind[MongoClient].qualifiedWith(name.wrapped).toInstance(client),
+      bind[MongoDatabase].toInstance(client.database()),
+      bind[MongoDatabase].qualifiedWith(name.wrapped).toInstance(client.database()))
 
-  def bindWithName(name: ConnectionName, client: MongoClient): Binding[_] =
-    bind[MongoClient].qualifiedWith(name.wrapped).toInstance(client)
+  def bindWithName(name: ConnectionName, client: MongoClient): Seq[Binding[_]] = Seq(
+    bind[MongoClient].qualifiedWith(name.wrapped).toInstance(client),
+    bind[MongoDatabase].qualifiedWith(name.wrapped).toInstance(client.database()))
 
   override def bindings(e: Environment, c: Configuration): Seq[Binding[_]] =
     configuration.default.map { defaultConnectionName =>
@@ -28,8 +33,8 @@ class MongoModule @Inject()(environment: Environment, config: Configuration) ext
         .getOrElse(Seq.empty) ++
       configuration.connections.keys
         .filterNot(_ == defaultConnectionName).flatMap(connectionName =>
-        connectedClients.get(connectionName).map(bindWithName(connectionName, _)))
-    }.getOrElse(connectedClients.map {
+        connectedClients.get(connectionName).toSeq.flatMap(bindWithName(connectionName, _)))
+    }.getOrElse(connectedClients.flatMap {
       case (name, connectionString) => bindWithName(name, connectionString)
     }).toSeq
 }

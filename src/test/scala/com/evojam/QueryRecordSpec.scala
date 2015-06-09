@@ -20,7 +20,7 @@ class QueryRecordSpec extends Specification with After {
 
   val collection = MongoClients.create(
     MongoClientSettings().codecRegistry(Codec.registry))
-    .getDatabase("foodb")
+    .database("foodb")
     .collection("queryrecordspec")
 
   val collectionContent = List(
