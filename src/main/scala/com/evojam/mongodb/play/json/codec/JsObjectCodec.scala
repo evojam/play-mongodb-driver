@@ -27,7 +27,7 @@ class JsObjectCodec(codecRegistry: CodecRegistry) extends Codec[JsObject] {
         writer.writeStartDocument()
 
         value.value.foreach {
-          case (fieldKey, fieldValue) if fieldKey != ID_FIELD_NAME =>
+          case (fieldKey, fieldValue) if fieldKey == ID_FIELD_NAME && ObjectId.isValid(fieldValue.toString()) =>
             writer.writeName(ID_FIELD_NAME)
             encoderContext.encodeWithChildContext(new ObjectIdCodec(), writer, new ObjectId(fieldValue.toString()))
           case (fieldKey, fieldValue) =>
