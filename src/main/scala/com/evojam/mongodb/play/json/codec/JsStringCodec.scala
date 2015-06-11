@@ -2,8 +2,8 @@ package com.evojam.mongodb.play.json.codec
 
 import play.api.libs.json.JsString
 
-import org.bson.{ BsonReader, BsonWriter }
-import org.bson.codecs.{ DecoderContext, EncoderContext, Codec }
+import org.bson.codecs.{ Codec, DecoderContext, EncoderContext }
+import org.bson.{ BsonReader, BsonType, BsonWriter }
 
 class JsStringCodec extends Codec[JsString] {
   override def encode(writer: BsonWriter, value: JsString, encoderContext: EncoderContext) =
@@ -11,6 +11,12 @@ class JsStringCodec extends Codec[JsString] {
 
   override def getEncoderClass = classOf[JsString]
 
-  override def decode(reader: BsonReader, decoderContext: DecoderContext) =
-    JsString(reader.readString())
+  override def decode(reader: BsonReader, decoderContext: DecoderContext) = {
+    reader.getCurrentBsonType match {
+      case BsonType.OBJECT_ID =>
+        JsString(reader.readObjectId().toHexString)
+      case _ =>
+        JsString(reader.readString())
+    }
+  }
 }
