@@ -13,26 +13,26 @@ trait DateTimeFormatters {
 
     override def writes(o: DateTime) = Json.obj("$date" -> o.getMillis)
 
-    override def reads(json: JsValue) = json match {
-      case JsObject(Seq(("$date", JsNumber(timestamp)))) if timestamp.isValidLong =>
-        JsSuccess(new DateTime(timestamp.toLong), __)
-      case _ =>
-        JsError(__, "validation.error.expected.$date")
-    }
+    override def reads(json: JsValue) =
+      json.validate[JsObject].map(_.value).flatMap {
+        case Seq(("$date", JsNumber(ts))) if ts.isValidLong =>
+          JsSuccess(new DateTime(ts.toLong))
+        case _ => JsError(__, "validation.error.expected.$date")
+      }
   }
 
   implicit object CalendarFormat extends Format[Calendar] {
 
     override def writes(o: Calendar) = Json.obj("$date" -> o.getTimeInMillis)
 
-    override def reads(json: JsValue) = json match {
-      case JsObject(Seq(("$date", JsNumber(timestamp)))) if timestamp.isValidLong =>
-        val cal = Calendar.getInstance()
-        cal.setTimeInMillis(timestamp.toLong)
-        JsSuccess(cal, __)
-      case _ =>
-        JsError(__, "validation.error.expected.$date")
-    }
+    override def reads(json: JsValue) =
+      json.validate[JsObject].map(_.value).flatMap {
+        case Seq(("$date", JsNumber(ts))) if ts.isValidLong =>
+          val cal = Calendar.getInstance()
+          cal.setTimeInMillis(ts.toLong)
+          JsSuccess(cal, __)
+        case _ => JsError(__, "validation.error.expected.$date")
+      }
   }
 
 }

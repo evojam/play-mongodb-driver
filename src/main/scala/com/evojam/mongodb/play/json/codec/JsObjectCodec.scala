@@ -1,8 +1,11 @@
 package com.evojam.mongodb.play.json.codec
 
+
+import scala.collection.immutable.{ Map, ListMap }
 import scala.collection.mutable
 
-import play.api.libs.json.{ JsNumber, JsValue, JsObject }
+import play.api.libs.json._
+import play.api.libs.json
 
 import org.bson.{ BsonType, BsonReader, BsonWriter }
 import org.bson.codecs.{ DecoderContext, ObjectIdCodec, EncoderContext, Codec }
@@ -19,14 +22,14 @@ class JsObjectCodec(codecRegistry: CodecRegistry) extends Codec[JsObject] {
       writer,
       value)
 
-  override def encode(writer: BsonWriter, value: JsObject, encoderContext: EncoderContext) =
-    value match {
-      case JsObject(Seq(("$date", JsNumber(ts)))) =>
+  override def encode(writer: BsonWriter, input: JsObject, encoderContext: EncoderContext) =
+    input.value.toSeq match {
+      case Seq(("$date", JsNumber(ts))) if ts.isValidLong =>
         writer.writeDateTime(ts.toLong)
       case _ =>
         writer.writeStartDocument()
 
-        value.value.foreach {
+        input.value.foreach {
           case (fieldKey, fieldValue) if fieldKey == ID_FIELD_NAME && ObjectId.isValid(fieldValue.toString()) =>
             writer.writeName(ID_FIELD_NAME)
             encoderContext.encodeWithChildContext(new ObjectIdCodec(), writer, new ObjectId(fieldValue.toString()))
