@@ -25,6 +25,5 @@ class JsNumberCodec extends Codec[JsNumber] {
       case INT64 => reader.readInt64()
       case INT32 => reader.readInt32()
       case DOUBLE => reader.readDouble()
-      case TIMESTAMP => reader.readTimestamp().getTime
     })
 }

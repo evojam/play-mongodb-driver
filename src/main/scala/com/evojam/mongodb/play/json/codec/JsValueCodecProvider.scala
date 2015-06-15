@@ -27,12 +27,17 @@ object JsValueCodecProvider {
     BsonType.STRING -> classOf[json.JsString],
     BsonType.DOCUMENT -> classOf[json.JsObject],
     BsonType.ARRAY -> classOf[json.JsArray],
-    BsonType.OBJECT_ID -> classOf[json.JsString],
+    BsonType.OBJECT_ID -> classOf[json.JsObject],
     BsonType.BOOLEAN -> classOf[json.JsBoolean],
     BsonType.DATE_TIME -> classOf[json.JsObject],
     BsonType.INT32 -> classOf[json.JsNumber],
-    BsonType.TIMESTAMP -> classOf[json.JsNumber],
-    BsonType.INT64 -> classOf[json.JsNumber])
+    BsonType.TIMESTAMP -> classOf[json.JsObject],
+    BsonType.INT64 -> classOf[json.JsObject],
+    BsonType.BINARY -> classOf[json.JsObject],
+    BsonType.REGULAR_EXPRESSION -> classOf[json.JsObject],
+    BsonType.MAX_KEY -> classOf[json.JsObject],
+    BsonType.MIN_KEY -> classOf[json.JsObject],
+    BsonType.UNDEFINED -> classOf[json.JsObject])
 
   def getEquivalentClass(sourceClass: BsonType): Class[_ <: json.JsValue] =
     classMap.getOrElse(sourceClass, null)

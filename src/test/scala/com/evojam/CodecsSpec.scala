@@ -15,12 +15,20 @@ class CodecsSpec extends Specification {
     .database("codecs")
     .collection("codectest")
 
+  val ts = (DateTime.now().getMillis / 1000).toInt
+
   sequential
 
   object Test extends AnyRef with DateTimeFormatters {
     val document = Json.obj(
       "_id" -> "1334",
-      "create" -> DateTime.now()
+      "create" -> DateTime.now(),
+      "data" -> Json.obj("$binary" -> "YmluYXJ5ZGF0YWhlcmU=", "$type" -> "2"),
+      "ts" -> Json.obj("$timestamp" -> Json.obj("t" -> ts, "i" -> 1)),
+      "search" -> Json.obj("$regex" -> "/[a-z]+/", "$options" -> "i"),
+      "dbpointer" -> Json.obj("$ref" -> "namespacename", "$id" -> "45plh3_6Sv6aneUWHL61Qw"),
+      "field" -> Json.obj("$undefined" -> true),
+      "longNum" -> Json.obj("$numberLong" -> "2134")
     )
   }
 
