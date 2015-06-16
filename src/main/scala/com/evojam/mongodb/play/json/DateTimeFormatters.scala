@@ -14,10 +14,11 @@ trait DateTimeFormatters {
     override def writes(o: DateTime) = Json.obj("$date" -> o.getMillis)
 
     override def reads(json: JsValue) =
-      json.validate[JsObject].map(_.value).flatMap {
+      json.validate[JsObject].map(_.value.toSeq).flatMap {
         case Seq(("$date", JsNumber(ts))) if ts.isValidLong =>
           JsSuccess(new DateTime(ts.toLong))
-        case _ => JsError(__, "validation.error.expected.$date")
+        case _ =>
+          JsError(__, "validation.error.expected.$date")
       }
   }
 
@@ -26,7 +27,7 @@ trait DateTimeFormatters {
     override def writes(o: Calendar) = Json.obj("$date" -> o.getTimeInMillis)
 
     override def reads(json: JsValue) =
-      json.validate[JsObject].map(_.value).flatMap {
+      json.validate[JsObject].map(_.value.toSeq).flatMap {
         case Seq(("$date", JsNumber(ts))) if ts.isValidLong =>
           val cal = Calendar.getInstance()
           cal.setTimeInMillis(ts.toLong)
