@@ -13,16 +13,20 @@ We provide `Codec` for all classes extending the `JsValue`. For sake of convenie
 
 ## How to enable the module
 
-Currently, we are publishing to the Sonatype snapshots thus this is the repository that has to be enabled. In your `build.sbt` add if not yet enabled:
+**Play Framework MongoDB Module** is available from Sonatype, simply add this dependency to yout `build.sbt`
+
+Current stable version:
+
+```scala
+resolvers += Resolver.sonatypeRepo("releases")
+libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.2.0"
+```
+
+Current snapshot:
 
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
-```
-
-Add library dependency:
-
-```scala
-libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.1.1-SNAPSHOT"
+libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.2.0-SNAPSHOT"
 ```
 
 Enable module in the application configuration and provide [mongo connection string](http://docs.mongodb.org/manual/reference/connection-string/):
