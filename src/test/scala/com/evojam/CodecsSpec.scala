@@ -36,7 +36,9 @@ class CodecsSpec extends Specification {
     "encode and decode" in {
 
       val res =
-        collection.findAndModify(Json.obj(), Json.obj("$set" -> Test.document), returnFormer = false, upsert = true)
+        collection.findAndModify(Json.obj(), Json.obj("$set" -> Test.document))
+          .returnFormer(false)
+          .upsert(true)
           .collect[JsValue]
           .map(_.map(_.as[JsObject]))
 

@@ -57,8 +57,12 @@ class DemoController @Inject()(mongo: MongoClient) extends Controller {
 
 ```scala
 import scala.concurrent.Future
+
 import play.api.libs.json.Json
+
 import com.evojam.mongodb.client.MongoClients
+import com.evojam.mongodb.play.json.Codec
+import com.evojam.mongodb.play.json.Codec._
 
 case class SampleRecord(_id: String)
 
@@ -80,8 +84,9 @@ val collectionContent = List(
 val res: Future[Unit] = collection.insertAll(collectionContent)
 
 // query the collection for SampleRecords
-val records: Future[List[SampleRecord]] = collection
-  .find()
-  .collect[SampleRecord]
+val records: Future[List[SampleRecord]] =
+  collection
+    .find()
+    .collect[SampleRecord]
 
 ```
