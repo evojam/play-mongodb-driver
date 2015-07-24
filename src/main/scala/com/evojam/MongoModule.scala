@@ -3,8 +3,9 @@ package com.evojam
 import play.api._
 import play.api.inject.{ Binding, Module }
 
-import com.evojam.mongodb.client.{ MongoDatabase, MongoCollection, MongoClient, MongoClients }
 import com.google.inject.Inject
+
+import com.evojam.mongodb.client.{MongoDatabase, MongoClient, MongoClients}
 
 class MongoModule @Inject()(environment: Environment, config: Configuration) extends Module {
   val logger = Logger(getClass)

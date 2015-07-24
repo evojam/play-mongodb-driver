@@ -19,14 +19,14 @@ Current stable version:
 
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
-libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.2.0"
+libraryDependencies += "com.evojam" %% "play-mongodb-driver" % "0.2.0"
 ```
 
 Current snapshot:
 
 ```scala
 resolvers += Resolver.sonatypeRepo("snapshots")
-libraryDependencies += "com.evojam" % "play-mongodb-driver_2.11" % "0.2.0-SNAPSHOT"
+libraryDependencies += "com.evojam" %% "play-mongodb-driver" % "0.3.1-SNAPSHOT"
 ```
 
 Enable module in the application configuration and provide [mongo connection string](http://docs.mongodb.org/manual/reference/connection-string/):
@@ -41,13 +41,14 @@ Voila, now you can use it anywhere... :) We strongly discourage mixing dao in th
 ```scala
 package com.evojam.demo.controller
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 import play.api.libs.json.Json
 import play.api.mvc.{ Action, Controller }
 
-import com.evojam.mongodb.client.MongoClient
 import com.google.inject.Inject
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.evojam.mongodb.client.MongoClient
 
 class DemoController @Inject()(mongo: MongoClient) extends Controller {
 
@@ -60,13 +61,12 @@ class DemoController @Inject()(mongo: MongoClient) extends Controller {
 ## How to query for real
 
 ```scala
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 import play.api.libs.json.Json
 
-import com.evojam.mongodb.client.MongoClients
-import com.evojam.mongodb.play.json.Codec
-import com.evojam.mongodb.play.json.Codec._
+import com.evojam.mongodb.play.json._
 
 case class SampleRecord(_id: String)
 
@@ -74,9 +74,8 @@ object SampleRecord {
   implicit val format = Json.format[SampleRecord]
 }
 
-val collection = MongoClients.create(
-    MongoClientSettings().codecRegistry(Codec.registry))
-    .getDatabase("foo")
+val collection = MongoClients.create()
+    .database("foo")
     .collection("bar")
 
 // insert records to collection

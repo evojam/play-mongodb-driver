@@ -6,14 +6,10 @@ import play.api.libs.json.Json
 import org.specs2.mutable.After
 import org.specs2.mutable.Specification
 
-import com.evojam.mongodb.client.MongoClientSettings
-import com.evojam.mongodb.client.MongoClients
-import com.evojam.mongodb.play.json.Codec
-import com.evojam.mongodb.play.json.Codec._
+import com.evojam.mongodb.play.json._
 
 class QueryJsonSpec extends Specification with After {
-  val collection = MongoClients.create(
-    MongoClientSettings().codecRegistry(Codec.registry))
+  val collection = MongoClients.create()
     .database("foodb")
     .collection("queryjsonspec")
 

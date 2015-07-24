@@ -2,16 +2,14 @@ package com.evojam
 
 import play.api.libs.json.{ JsValue, JsObject, Json }
 
-import com.evojam.mongodb.client.{ MongoClientSettings, MongoClients }
-import com.evojam.mongodb.play.json.{ Codec, DateTimeFormatters }
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
-import com.evojam.mongodb.play.json.Codec._
+
+import com.evojam.mongodb.play.json._
 
 class CodecsSpec extends Specification {
 
-  val collection = MongoClients.create(
-    MongoClientSettings().codecRegistry(Codec.registry))
+  val collection = MongoClients.create()
     .database("codecs")
     .collection("codectest")
 
