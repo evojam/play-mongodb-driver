@@ -19,7 +19,7 @@ Current stable version:
 
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
-libraryDependencies += "com.evojam" %% "play-mongodb-driver" % "0.2.0"
+libraryDependencies += "com.evojam" %% "play-mongodb-driver" % "0.3.1"
 ```
 
 Current snapshot:
