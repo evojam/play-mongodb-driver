@@ -1,6 +1,6 @@
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
-crossScalaVersions := Seq("2.11.6")
+crossScalaVersions := Seq("2.11.7")
 
 name := "play-mongodb-driver"
 
@@ -33,6 +33,6 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-core" % "2.4.11" % "test",
   "org.specs2" %% "specs2-junit" % "2.4.11" % "test",
-  "com.typesafe.play" % "play_2.11" % "2.4.0",
-  "com.evojam" % "mongo-driver-scala_2.11" % "0.4.1"
+  "com.typesafe.play" % "play_2.11" % "2.4.2",
+  "com.evojam" % "mongo-driver-scala_2.11" % "0.5.0"
 )
