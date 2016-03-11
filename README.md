@@ -1,3 +1,14 @@
+# This project is no longer maintained.
+
+This module was created when there was no good support for using MongoDB from
+Scala and Play. This is no longer the case - use [Play-ReactiveMongo] instead.
+See [mongodb-driver-scala](https://github.com/evojam/mongodb-driver-scala) for
+the rationale.
+
+[Play-ReactiveMongo]: https://github.com/ReactiveMongo/Play-ReactiveMongo
+
+
+
 Play Framework MongoDB module
 ===========================
 
